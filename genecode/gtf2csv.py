@@ -1,15 +1,8 @@
 import csv
-import numpy as np
-import gzip
+from utils.ungz import ungz
 #解压文件
 file_name="v43/basic/gencode.v43.basic.annotation.gtf.gz"
-def ungz(file_name):
-    f_name = file_name.replace(".gz", "")
-    g_file = gzip.GzipFile(file_name)
-    # 创建gzip对象
-    open(f_name, "wb+").write(g_file.read())
-    # gzip对象用read()打开后，写入open()建立的文件里。
-    g_file.close()  # 关闭gzip对象
+
 #读取gtf文件
 def read(path):
     with open(path, 'r') as gtf:
