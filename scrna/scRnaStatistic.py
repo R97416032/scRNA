@@ -17,7 +17,20 @@ def scRnaStatistic(path):
             res.append(sum(temp[sam].values))
         df[sam]=res
     df.to_csv(path.replace(".csv","_result.csv"),index=None)
-
+    gene_id=set(data["gene_id"].values.tolist())
+    gene_id=[*gene_id]
+    gene_id.sort()
+    df=pd.DataFrame()
+    df["gene_id"]=gene_id
+    res=[]
+    for gid in gene_id:
+        res.append(sum(data[data["gene_id"]==gid].values[0][2:]))
+    df["counts"]=res
+    res = []
+    for gid in gene_id:
+        res.append("%.4f%%"%(sum(data[data["gene_id"] == gid].values[0][2:])/sum(df["counts"])))
+    df["ratio"] = res
+    df.to_csv(path.replace(".csv","_eachgene_result.csv"),index=None)
 
 
 def computePercentage(path):
@@ -31,7 +44,7 @@ def computePercentage(path):
         sumcount=sum(data[sam].values)
         res=[]
         for gt in gene_type:
-            res.append("%.4f%%"%((data[data["gene_type"]==gt][sam].values/sumcount)[0]*100))
+            res.append("%.5f%%"%((data[data["gene_type"]==gt][sam].values/sumcount)[0]*100))
         df[sam]=res
     df.to_csv(path.replace("_counts_result.csv","_precentage_result.csv"))
 
@@ -39,4 +52,4 @@ def computePercentage(path):
 path="GSE81812/GSE81812_Normalized_counts.csv"
 result_path="GSE81812/GSE81812_Normalized_counts_result.csv"
 scRnaStatistic(path)
-# computePercentage(result_path)
+computePercentage(result_path)
