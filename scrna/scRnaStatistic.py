@@ -17,11 +17,11 @@ def scRnaStatistic(path):
             res.append(sum(temp[sam].values))
         df[sam]=res
     df.to_csv(path.replace(".csv","_result.csv"),index=None)
-    gene_id=set(data["gene_id"].values.tolist())
-    gene_id=[*gene_id]
-    gene_id.sort()
     df=pd.DataFrame()
-    df["gene_id"]=gene_id
+    gene_id=data["gene_id"].values.tolist()
+    gene_type = data["gene_type"].values.tolist()
+    df["gene_id"] = gene_id
+    df["gene_type"] = gene_type
     res=[]
     for gid in gene_id:
         res.append(sum(data[data["gene_id"]==gid].values[0][2:]))
@@ -30,6 +30,7 @@ def scRnaStatistic(path):
     for gid in gene_id:
         res.append("%.4f%%"%(sum(data[data["gene_id"] == gid].values[0][2:])/sum(df["counts"])))
     df["ratio"] = res
+    df = df.sort_values(by="counts")
     df.to_csv(path.replace(".csv","_eachgene_result.csv"),index=None)
 
 
@@ -46,6 +47,7 @@ def computePercentage(path):
         for gt in gene_type:
             res.append("%.5f%%"%((data[data["gene_type"]==gt][sam].values/sumcount)[0]*100))
         df[sam]=res
+
     df.to_csv(path.replace("_counts_result.csv","_precentage_result.csv"))
 
 
