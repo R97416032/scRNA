@@ -48,7 +48,7 @@ def computePercentage(path):
             res.append("%.5f%%"%((data[data["gene_type"]==gt][sam].values/sumcount)[0]*100))
         df[sam]=res
 
-    df.to_csv(path.replace("_counts_result.csv","_precentage_result.csv"))
+    df.to_csv(path.replace("_counts_result.csv","_precentage_result.csv"),index=None)
 
 
 path="GSE81812/GSE81812_Normalized_counts.csv"
