@@ -3,7 +3,7 @@ import pandas as pd
 
 def toWavalen(path):
     data=pd.read_csv(path)
-    sample=data.columns[2:]
+    sample=data.columns[1:]
     geneid=data["gene_id"].values
     df=pd.DataFrame(columns=["gene_id",*sample])
     df["gene_id"]=geneid
