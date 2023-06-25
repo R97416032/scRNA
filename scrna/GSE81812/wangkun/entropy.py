@@ -32,12 +32,15 @@ def get_type(path):
     data=data[data["entropy"].values>0]
     gene_id=data["gene_id"].values
     gene_type=[]
+    name=[]
     for id in gene_id:
         gene_type.append(genecode[genecode["gene_id"]==id]["gene_type"].values[0])
-    df=pd.DataFrame(columns=["gene_id","gene_type","entropy"])
+        name.append(genecode[genecode["gene_id"]==id]["gene_name"].values[0])
+    df=pd.DataFrame(columns=["gene_id","gene_name","gene_type","entropy"])
     df["gene_id"]=gene_id
     df["gene_type"]=gene_type
     df["entropy"]=data["entropy"].values
+    df["gene_name"]=name
     df.to_csv("entropy_withtype.csv",index=None)
 def show(path):
     data=pd.read_csv(path)
@@ -50,5 +53,5 @@ def show(path):
     show_values(ax)
     plt.show()
 # get_entropy("color.csv")
-# get_type("entropy.csv")
+get_type("entropy.csv")
 show("entropy_withtype.csv")
